@@ -1,1 +1,1 @@
-General Repo for miscellaneous DS projects.
+General Repo for miscellaneous DS projects and notes.
