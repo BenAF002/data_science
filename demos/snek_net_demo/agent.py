@@ -17,9 +17,10 @@ class Agent:
         self.epsilon = 0 # randomness
         self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft()
-        self.model = Linear_QNet(11, 256, 3)
+        self.model = Linear_QNet(14, 256, 3)
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
 
+        self.action_set = [0, 0, 0]  # short-term memory of actions
 
     def get_state(self, game):
         head = game.snake[0]
@@ -64,6 +65,8 @@ class Agent:
             game.food.y < game.head.y,  # food up
             game.food.y > game.head.y  # food down
             ]
+
+        state += self.action_set  # last 3 moves
 
         return np.array(state, dtype=int)
 
@@ -113,6 +116,8 @@ def train():
 
         # get move
         final_move = agent.get_action(state_old)
+        agent.action_set.extend(final_move)      # remember last move
+        agent.action_set = agent.action_set[3:]  # keep only the last 3 moves
 
         # perform move and get new state
         reward, done, score = game.play_step(final_move)
