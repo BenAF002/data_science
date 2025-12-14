@@ -1,0 +1,1 @@
+This is a reinforcement learning demo that trains an agent with a simple neural network to play snake. It follows this repo: https://github.com/patrickloeber/snake-ai-pytorch
